@@ -29,7 +29,7 @@ func main() {
 }
 
 func loadConfig(projectPath string) *Config {
-	configFile, err := os.ReadFile(filepath.Join(projectPath, "config.json"))
+	configFile, err := os.ReadFile(filepath.Join(projectPath, "llm-helper-config.json"))
 	if err != nil {
 		panic(fmt.Errorf("failed to read config: %w", err))
 	}

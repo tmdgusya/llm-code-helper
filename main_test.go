@@ -11,7 +11,7 @@ func setupTestEnvironment() {
 	_ = os.MkdirAll("src/dist", 0755)
 	_ = os.MkdirAll("src", 0755)
 
-	_ = os.WriteFile("config.json", []byte(`{
+	_ = os.WriteFile("llm-helper-config.json", []byte(`{
 		"dir" : "src/",
 		"file_extension" : "*.kt|*.ts|*.js",
 		"ignore_files": "dist/**"
@@ -26,7 +26,7 @@ func setupTestEnvironment() {
 
 func teardownTestEnvironment() {
 	_ = os.RemoveAll("src")
-	_ = os.Remove("config.json")
+	_ = os.Remove("llm-helper-config.json")
 	_ = os.Remove("instruct.prompt")
 	_ = os.Remove("output.prompt")
 }
