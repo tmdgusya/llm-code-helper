@@ -1,0 +1,6 @@
+{
+  "dir" : "src/",
+  "file_extension" : "*.ts|*.js",
+  "ignore_files": "dist/**",
+  "project_path": "/Users/roach/code-llm-helper/test"
+}

@@ -63,7 +63,7 @@ Create `config.json` in the project directory:
 
 2. Add your instructions
 
-Write prompt instructions in `instruct.prompt`
+Write prompt instructions in `instruct.prompt`. This file always should be top of your project.
 
 3. Run the app like a champ 💥
 
@@ -75,6 +75,46 @@ go run main.go
 
 Open output.prompt to see the result!
 
+### Use it as executable file
+
+1. build main.go as executable file
+
+```shell
+go build -o code-crawler main.go
+```
+
+2. move executable file 
+
+```shell
+sudo mv code-crawler /usr/local/bin
+```
+
+3. Verify the move by running
+
+```shell
+ls -l /usr/local/bin/code-crawler
+```
+
+4. 🚀 Test the CLI Tool
+
+```shell
+code-crawler
+```
+
+5. 🧪 Optional: Create a Shell Alias (If Desired)
+
+If you want a shorter command, you can create a shell alias in your ~/.zshrc file:
+
+```bash
+echo 'alias crawler="code-crawler"' >> ~/.zshrc
+source ~/.zshrc
+```
+
+Then simply use:
+
+```bash
+crawler -projectPath /path/to/project
+```
 ---
 
 ## 📝 Example Workflow
@@ -109,7 +149,7 @@ console.log("pop");
 ### 🛠 Command Execution
 
 ```bash
-go run main.go
+go run main.go --projectPath /path/to/project
 ```
 
 ### 📝 Generated Output (output.prompt)

@@ -35,7 +35,7 @@ func TestLoadConfig(t *testing.T) {
 	setupTestEnvironment()
 	defer teardownTestEnvironment()
 
-	config := loadConfig()
+	config := loadConfig("")
 	if config.Dir != "src/" {
 		t.Fatalf("Expected dir to be 'src/', got %s", config.Dir)
 	}
@@ -57,7 +57,7 @@ func TestCrawlFiles(t *testing.T) {
 		IgnoreFiles: "dist/**",
 	}
 
-	files := crawlFiles(config)
+	files := crawlFiles(config, "")
 
 	expectedFiles := []string{
 		"src/test.js",
@@ -87,12 +87,18 @@ func TestGeneratePrompt(t *testing.T) {
 	setupTestEnvironment()
 	defer teardownTestEnvironment()
 
+	config := &Config{
+		Dir:         "src/",
+		FilePattern: "*.kt|*.ts|*.js",
+		IgnoreFiles: "dist/**",
+	}
+
 	files := []string{
 		"src/test.js",
 		"src/test.kt",
 		"src/test.ts",
 	}
-	generatePrompt(files)
+	generatePrompt(config, files, "")
 
 	content, err := os.ReadFile("output.prompt")
 	if err != nil {

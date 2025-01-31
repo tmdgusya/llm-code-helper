@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"flag"
 	"fmt"
 	"io/fs"
 	"os"
@@ -18,13 +19,17 @@ type Config struct {
 }
 
 func main() {
-	config := loadConfig()
-	files := crawlFiles(config)
-	generatePrompt(files)
+	// Define command-line flag for config path
+	projectPath := flag.String("projectPath", "", "Path to project folder")
+	flag.Parse()
+
+	config := loadConfig(*projectPath)
+	files := crawlFiles(config, *projectPath)
+	generatePrompt(config, files, *projectPath)
 }
 
-func loadConfig() *Config {
-	configFile, err := os.ReadFile("config.json")
+func loadConfig(projectPath string) *Config {
+	configFile, err := os.ReadFile(filepath.Join(projectPath, "config.json"))
 	if err != nil {
 		panic(fmt.Errorf("failed to read config: %w", err))
 	}
@@ -37,14 +42,14 @@ func loadConfig() *Config {
 	return &config
 }
 
-func crawlFiles(config *Config) []string {
+func crawlFiles(config *Config, projectPath string) []string {
 	patterns := strings.Split(config.FilePattern, "|")
 	ignorePatterns := strings.Split(config.IgnoreFiles, "\n")
 
 	gi := ignore.CompileIgnoreLines(ignorePatterns...)
 
 	var files []string
-	filepath.WalkDir(config.Dir, func(path string, d fs.DirEntry, err error) error {
+	filepath.WalkDir(filepath.Join(projectPath, config.Dir), func(path string, d fs.DirEntry, err error) error {
 		if err != nil || d.IsDir() {
 			return nil
 		}
@@ -70,8 +75,8 @@ func crawlFiles(config *Config) []string {
 	return files
 }
 
-func generatePrompt(files []string) {
-	instruction, _ := os.ReadFile("instruct.prompt")
+func generatePrompt(config *Config, files []string, projectPath string) {
+	instruction, _ := os.ReadFile(filepath.Join(projectPath, "instruct.prompt"))
 	var output strings.Builder
 
 	output.WriteString(string(instruction))
@@ -83,5 +88,5 @@ func generatePrompt(files []string) {
 		output.WriteString(fmt.Sprintf("``````\n%s\n%s\n``````\n", relPath, string(content)))
 	}
 
-	os.WriteFile("output.prompt", []byte(output.String()), 0644)
+	os.WriteFile(filepath.Join(projectPath, "output.prompt"), []byte(output.String()), 0644)
 }
