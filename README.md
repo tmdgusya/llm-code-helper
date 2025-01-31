@@ -13,9 +13,9 @@ Welcome to **Code-LLM Helper**, a mind-blowing CLI tool designed to help you cra
 
 ---
 
-## 📦 `config.json` Explained 🔍  
+## 📦 `llm-helper-config.json` Explained 🔍  
 
-The `config.json` file is the configuration heart of the Code Crawler. It defines:  
+The `llm-helper-config.json` file is the configuration heart of the Code Crawler. It defines:  
 
 ### **1. Directory (`dir`)**  
 Specify the root directory to crawl.  
@@ -51,7 +51,7 @@ go mod tidy
 
 **1. Prepare your config file**
 
-Create `config.json` in the project directory:
+Create `llm-helper-config.json` in the project directory:
 
 ```json
 {
@@ -120,7 +120,7 @@ crawler -projectPath /path/to/project
 ## 📝 Example Workflow
 
 **Given Files and Prompts**
-`config.json`
+`llm-helper-config.json`
 
 ```json
 {
